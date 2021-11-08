@@ -1,12 +1,11 @@
 {
-  "name": "testPost",
-  "version": "1.0.0",
+  "name": "test-post",
+  "version": "1.0.1",
   "main": "index.js",
   "author": "me",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
-    "express": "^4.17.1",
-    "ngrok": "^4.1.0"
+    "axios": "^0.24.0",
+    "express": "^4.17.1"
   }
 }
