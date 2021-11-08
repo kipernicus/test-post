@@ -1,0 +1,12 @@
+{
+  "name": "testPost",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "me",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "ngrok": "^4.1.0"
+  }
+}
