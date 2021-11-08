@@ -1,4 +1,5 @@
 To run:
 
-node ./index.js
-npx ngrok http 3000
+```node ./index.js```
+
+```npx ngrok http 3000```
