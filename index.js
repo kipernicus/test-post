@@ -5,14 +5,29 @@ const app = express()
 app.use(express.json())
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+app.post('/testPostOldSchool', (req, res) => {
+
+  const cbUrl = req.get('X-Response-URL')
+  console.log('OLD SCHOOL POST!!!', JSON.stringify(req.body, null, 2))
+  console.log('URL:', cbUrl)
+  if (cbUrl) {
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        axios.post(cbUrl, {
+          notification: 'Thing #2'
+        })
+      }, 5000)
+    }
+  }
+  res.sendStatus(202, 'Boo')
+})
 app.post('/testPost', (req, res) => {
 
-  console.log('DOING THINGS!!!')
+  console.log('BASIC POST!!!', JSON.stringify(req.body, null, 2))
   const cbUrl = req.get('X-Response-URL')
   if (cbUrl) {
     setTimeout(() => {
       axios.post(cbUrl, {
-        data: { notification: 'Thing #1' },
         notification: 'Thing #2'
       })
     }, 5000)
@@ -21,7 +36,7 @@ app.post('/testPost', (req, res) => {
 })
 app.post('/testPost/:echo', (req, res) => {
 
-  console.log('DOING MORE THINGS!!!', req.params, req.body)
+  console.log('ADVANCED POST!!!', req.params, req.body)
   const cbUrl = req.get('X-Response-URL')
   if (cbUrl) {
     setTimeout(() => {
