@@ -26,21 +26,35 @@ app.post('/testPostOldSchool', (req, res) => {
       }, 5000)
     }
   }
-  res.status(202).send('Boo')
+  res.status(202).json({ res: 'Boo' })
 })
 app.post('/testIntegration', (req, res) => {
   console.log('POST BODY:', JSON.stringify(req.body, null, 2))
   // console.log('URL PARAMS', JSON.stringify(req.params, null, 2))
   // console.log('QUERY STRING', JSON.stringify(req.query, null, 2))
   const cbUrl = req.get('X-Response-URL')
-  // if (cbUrl) {
-  //   setTimeout(() => {
-  //     axios.post(cbUrl, {
-  //       notification: 'Thing #2'
-  //     })
-  //   }, 5000)
-  // }
-  res.status(200).send('Boo')
+  if (cbUrl) {
+    setTimeout(() => {
+      axios.post(cbUrl, {
+        notification: 'Thing #2',
+        newOne: 'Hello Joe!',
+        deepThing: {
+          deepValue: 'Hey there!'
+        },
+        arrayThing: ['zeroeth', 'first', 'second'],
+        objectArrayThing: [
+          {
+            id: 'first'
+          },
+          {
+            id: 'second'
+          }
+        ],
+        yetAnotherThing: 'bob'
+      })
+    }, 5000)
+  }
+  res.status(202).json({ res: 'Boo' })
 })
 app.post('/testIntegrationInputs/:input', (req, res) => {
   console.log('POST BODY:', JSON.stringify(req.body, null, 2))
@@ -54,7 +68,7 @@ app.post('/testIntegrationInputs/:input', (req, res) => {
   //     })
   //   }, 5000)
   // }
-  res.status(200).send('Boo')
+  res.status(200).send({ res: 'Boo' })
 })
 app.get('/testIntegrationOutputs', (req, res) => {
   try {
@@ -79,11 +93,7 @@ app.get('/testIntegrationOutputs', (req, res) => {
 })
 app.post('/kd-demo', (req, res) => {
   try {
-    const {
-      attendees,
-      distance,
-      costPerMile
-    } = req.body
+    const { attendees, distance, costPerMile } = req.body
     const result = attendees * distance * costPerMile
     const supervisor = { id: '618b0b6a6f6564f5bef78665', label: 'Joe Stone' }
     const responseData = {
@@ -106,9 +116,9 @@ app.post('/testPost/:echo', (req, res) => {
       echoedString: req.params.echo,
       reversedString: req.body.reverseMe
         ? req.body.reverseMe
-          .split('')
-          .reverse()
-          .join('')
+            .split('')
+            .reverse()
+            .join('')
         : 'nothin',
       calc: '500',
       text: 'text',
@@ -142,6 +152,23 @@ app.post('/testPost/:echo', (req, res) => {
     console.error('DEATH', err)
     res.status(500).send(err.message)
   }
+})
+
+app.post('/testPostExample', (req, res) => {
+  try {
+    console.log('POST EXAMPLE!!!', JSON.stringify(req.body, null, 2))
+    const cbUrl = req.get('X-Response-URL')
+    setTimeout(() => {
+      axios.post(cbUrl, 'OK')
+    }, 10000)
+    res.status(202).send('OK')
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+})
+
+app.get('/brokenGet', (req, res) => {
+  res.status(202).json('Here is a silly old string')
 })
 
 console.log('RUNNING...')
